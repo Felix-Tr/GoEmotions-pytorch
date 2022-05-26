@@ -1,5 +1,5 @@
 import torch.nn as nn
-from transformers import BertPreTrainedModel, BertModel
+from transformers import BertPreTrainedModel, BertModel, AutoModel
 
 
 class BertForMultiLabelClassification(BertPreTrainedModel):
@@ -7,7 +7,7 @@ class BertForMultiLabelClassification(BertPreTrainedModel):
         super().__init__(config)
         self.num_labels = config.num_labels
 
-        self.bert = BertModel(config)
+        self.bert = AutoModel.from_config(config)
         self.dropout = nn.Dropout(config.hidden_dropout_prob)
         self.classifier = nn.Linear(config.hidden_size, self.config.num_labels)
         self.loss_fct = nn.BCEWithLogitsLoss()
