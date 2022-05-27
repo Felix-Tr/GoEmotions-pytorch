@@ -208,6 +208,7 @@ def evaluate(args, model, eval_dataset, mode, global_step=None):
     output_eval_file = os.path.join(output_dir, "{}-{}.txt".format(mode, global_step) if global_step else "{}.txt".format(mode))
     with open(output_eval_file, "w") as f_w:
         logger.info("***** Eval results on {} dataset *****".format(mode))
+        wandb.log({key: str(value) for key, value in results.items()})
         for key in sorted(results.keys()):
             logger.info("  {} = {}".format(key, str(results[key])))
             f_w.write("  {} = {}\n".format(key, str(results[key])))
@@ -250,7 +251,7 @@ def main(cli_args):
     model.to(args.device)
 
     # wandb magic
-    wandb.watch(model, log_freq=100)
+    # wandb.watch(model, log_freq=100)
 
     # Load dataset
     train_dataset = load_and_cache_examples(args, tokenizer, mode="train") if args.train_file else None
