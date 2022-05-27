@@ -294,11 +294,18 @@ if __name__ == '__main__':
 
     cli_parser = argparse.ArgumentParser()
     cli_parser.add_argument("--taxonomy", type=str, required=True, help="Taxonomy (original, ekman, group)")
+    cli_parser.add_argument("--run", type=str, required=False, default=None, help="Run name for UI in wandb")
 
     cli_args = cli_parser.parse_args()
 
     # wandb integration
     wandb.login(key="a6da9e40226ee6796df369e63bf8ee32a1171278")
-    wandb.init(project=f"goemotions-bert")
+    from time import localtime
+    cur_time = f"{localtime().tm_mday}.{localtime().tm_mon} - {localtime().tm_hour}:{localtime().tm_min}"
+    if cli_args.run:
+        run = cli_args.run + " - " + cur_time
+    else:
+        run = cur_time
+    wandb.init(project=f"goemotions-bert", name=run)
 
     main(cli_args)
