@@ -192,14 +192,14 @@ def evaluate(args, model, eval_dataset, mode, global_step=None):
             preds = np.append(preds, 1 / (1 + np.exp(-logits.detach().cpu().numpy())), axis=0)  # Sigmoid
             out_label_ids = np.append(out_label_ids, inputs["labels"].detach().cpu().numpy(), axis=0)
 
-    eval_loss = eval_loss / nb_eval_steps
-    results = {
-        "loss": eval_loss
-    }
-    preds[preds > args.threshold] = 1
-    preds[preds <= args.threshold] = 0
-    result = compute_metrics(out_label_ids, preds)
-    results.update(result)
+        eval_loss = eval_loss / nb_eval_steps
+        results = {
+            "loss": eval_loss
+        }
+        preds[preds > args.threshold] = 1
+        preds[preds <= args.threshold] = 0
+        result = compute_metrics(out_label_ids, preds)
+        results.update(result)
 
     output_dir = os.path.join(args.output_dir, mode)
     if not os.path.exists(output_dir):
@@ -208,7 +208,7 @@ def evaluate(args, model, eval_dataset, mode, global_step=None):
     output_eval_file = os.path.join(output_dir, "{}-{}.txt".format(mode, global_step) if global_step else "{}.txt".format(mode))
     with open(output_eval_file, "w") as f_w:
         logger.info("***** Eval results on {} dataset *****".format(mode))
-        wandb.log({key: str(value) for key, value in results.items()})
+        wandb.log(results)
         for key in sorted(results.keys()):
             logger.info("  {} = {}".format(key, str(results[key])))
             f_w.write("  {} = {}\n".format(key, str(results[key])))
