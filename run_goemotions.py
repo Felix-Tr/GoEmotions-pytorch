@@ -299,6 +299,6 @@ if __name__ == '__main__':
 
     # wandb integration
     wandb.login(key="a6da9e40226ee6796df369e63bf8ee32a1171278")
-    wandb.init(project=f"goemotions-bert-{cli_args.taxonomy}")
+    wandb.init(project=f"goemotions-bert")
 
     main(cli_args)
