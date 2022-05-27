@@ -3,6 +3,7 @@ import json
 import logging
 import os
 import glob
+import wandb
 
 import numpy as np
 import torch
@@ -37,6 +38,7 @@ def train(args,
           train_dataset,
           dev_dataset=None,
           test_dataset=None):
+
     train_sampler = RandomSampler(train_dataset)
     train_dataloader = DataLoader(train_dataset, sampler=train_sampler, batch_size=args.train_batch_size)
     if args.max_steps > 0:
@@ -95,6 +97,10 @@ def train(args,
             outputs = model(**inputs)
 
             loss = outputs[0]
+
+            # wandb
+            if step % 10 == 0:
+                wandb.log({"loss": float(loss.cpu())})
 
             if args.gradient_accumulation_steps > 1:
                 loss = loss / args.gradient_accumulation_steps
@@ -243,6 +249,9 @@ def main(cli_args):
     args.device = "cuda" if torch.cuda.is_available() and not args.no_cuda else "cpu"
     model.to(args.device)
 
+    # wandb magic
+    wandb.watch(model, log_freq=100)
+
     # Load dataset
     train_dataset = load_and_cache_examples(args, tokenizer, mode="train") if args.train_file else None
     dev_dataset = load_and_cache_examples(args, tokenizer, mode="dev") if args.dev_file else None
@@ -281,10 +290,14 @@ def main(cli_args):
 
 
 if __name__ == '__main__':
-    cli_parser = argparse.ArgumentParser()
 
+    cli_parser = argparse.ArgumentParser()
     cli_parser.add_argument("--taxonomy", type=str, required=True, help="Taxonomy (original, ekman, group)")
 
     cli_args = cli_parser.parse_args()
+
+    # wandb integration
+    wandb.login(key="a6da9e40226ee6796df369e63bf8ee32a1171278")
+    wandb.init(project=f"goemotions-bert-{cli_args.taxonomy}")
 
     main(cli_args)
