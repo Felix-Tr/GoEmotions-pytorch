@@ -2,7 +2,7 @@
   "task": "goemotions",
   "data_dir": "/content/drive/MyDrive/temporary/masterthesis_drive/GoEmiotionsData/data/ekman",
   "ckpt_dir": "/content/drive/MyDrive/temporary/masterthesis_drive/models/GoEmotions",
-  "output_dir": "bert-base-german-cased-goemotions-ekman",
+  "output_dir": "bert-base-german-cased-goemotions-transfer-ekman",
   "train_file": "trainDE.tsv",
   "dev_file": "devDE.tsv",
   "test_file": "testDE.tsv",

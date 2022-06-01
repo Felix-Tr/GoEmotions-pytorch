@@ -1,6 +1,6 @@
 {
   "task": "goemotions",
-  "data_dir": "/content/drive/MyDrive/temporary/masterthesis_drive/GoEmiotionsData/data/ekmann",
+  "data_dir": "/content/drive/MyDrive/temporary/masterthesis_drive/GoEmiotionsData/data/ekman",
   "ckpt_dir": "/content/drive/MyDrive/temporary/masterthesis_drive/models/GoEmotions",
   "output_dir": "bert-base-cased-goemotions-ekman",
   "train_file": "train.tsv",
