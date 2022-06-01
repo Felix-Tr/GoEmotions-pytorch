@@ -251,7 +251,7 @@ def main(cli_args):
     model.to(args.device)
 
     # wandb magic
-    # wandb.watch(model, log_freq=100)
+    wandb.watch(model, log_freq=100)
 
     # Load dataset
     train_dataset = load_and_cache_examples(args, tokenizer, mode="train") if args.train_file else None
