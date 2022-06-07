@@ -223,6 +223,8 @@ def main(cli_args):
         args = AttrDict(json.load(f))
     logger.info("Training/evaluation parameters {}".format(args))
 
+    if cli_args.colab:
+        args.ckpt_dir = cli_args.colab
     args.output_dir = os.path.join(args.ckpt_dir, args.output_dir)
 
     init_logger()
@@ -296,6 +298,7 @@ if __name__ == '__main__':
     cli_parser.add_argument("--taxonomy", type=str, required=True, help="Taxonomy (original, ekman, group)")
     cli_parser.add_argument("--run", type=str, required=False, default=None, help="Run name for UI in wandb")
     cli_parser.add_argument("--wandb", type=str, required=False, default=None, help="Weather to log into wandb")
+    cli_parser.add_argument("--colab", type=str, required=False, default=None, help="if in colab save to drive path input")
 
     cli_args = cli_parser.parse_args()
 
