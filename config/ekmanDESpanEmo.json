@@ -28,8 +28,8 @@
   "seed": 42,
   "train_batch_size": 16,
   "eval_batch_size": 32,
-  "logging_steps": 1000,
-  "save_steps": 1000,
+  "logging_steps": 400,
+  "save_steps": 400,
   "learning_rate": 5e-5,
   "threshold": 0.3
 }
